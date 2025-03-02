@@ -1,0 +1,8 @@
+# Add hosts here, one per line. Additional groups can be created using
+# [group] syntax. Hosts can join multiple groups.
+
+[provisionning]
+provisionning-webserver1 ansible_host=127.0.0.1 ansible_user=root ansible_ssh_pass=mypassword
+
+[docker-compose]
+webserver1 ansible_host=127.0.0.1 ansible_user=ansible ansible_ssh_pass=mypassword ansible_sudo_pass=mypassword ansible_port=30000

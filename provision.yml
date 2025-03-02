@@ -1,6 +1,5 @@
 ---
 - hosts: provisionning
-  user: root
   vars:
     user:
       username: ansible

@@ -9,45 +9,41 @@
     ssh:
       port: 30000
 
-    security_ssh_port: "{{ ssh.port }}"
-    security_ssh_password_authentication: "no"
-    security_ssh_permit_root_login: "no"
-    security_ssh_usedns: "no"
-    security_ssh_allowed_users: ["{{ user.username }}"]
-
-    # Firewall settings
-    security_enable_firewall: true
-    security_firewall_allowed_tcp_ports:
-      - "{{ ssh.port }}" # SSH
-      - "80" # HTTP
-      - "443" # HTTPS
-
-    # Security autoupdate
-    security_autoupdate_enabled: true
-
-    # Autoupdate mail settings used on Debian/Ubuntu only.
-    security_autoupdate_reboot: "true"
-    security_autoupdate_reboot_time: "06:00"
-    security_autoupdate_mail_to: "email@email.com"
-    security_autoupdate_mail_on_error: true
-
-    # fail2ban settings
-    security_enable_fail2ban: true
-    security_fail2ban_bantime: 600
-    security_fail2ban_findtime: 600
-    security_fail2ban_maxretry: 3
-
-    # Docker configuration
-    docker_install_compose: true
-    docker_users: ["{{ user.username }}"]
-    docker_compose_version: "v2.33.1"
-
   roles:
-    - common
-    - user
-    - geerlingguy.security
-    - geerlingguy.docker
+  roles:
+    - role: common
+    - role: user
+    - role: geerlingguy.security
+      vars:
+        security_ssh_port: "{{ ssh.port }}"
+        security_ssh_password_authentication: "no"
+        security_ssh_permit_root_login: "no"
+        security_ssh_usedns: "no"
+        security_ssh_allowed_users: ["{{ user.username }}"]
+
+        # Firewall settings
+        security_enable_firewall: true
+        security_firewall_allowed_tcp_ports:
+          - "{{ ssh.port }}" # SSH
+          - "80" # HTTP
+          - "443" # HTTPS
+
+        # Security autoupdate
+        security_autoupdate_enabled: true
+
+        # Autoupdate mail settings used on Debian/Ubuntu only.
+        security_autoupdate_reboot: "true"
+        security_autoupdate_reboot_time: "06:00"
+        security_autoupdate_mail_to: "email@email.com"
+        security_autoupdate_mail_on_error: true
+
+        # fail2ban settings
+        security_enable_fail2ban: true
+        security_fail2ban_bantime: 600
+        security_fail2ban_findtime: 600
+        security_fail2ban_maxretry: 3
+    - role: geerlingguy.docker
 
 - hosts: docker-compose
   roles:
-    - run-docker-compose
+    - role: run-docker-compose

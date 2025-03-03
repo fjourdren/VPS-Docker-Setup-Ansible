@@ -9,7 +9,6 @@
       port: 30000
 
   roles:
-  roles:
     - role: common
     - role: user
     - role: geerlingguy.security

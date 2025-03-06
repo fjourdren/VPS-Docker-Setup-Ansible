@@ -21,6 +21,8 @@ ansible-galaxy install -r requirements.yml
 
 ## Usage
 
+### Provision
+
 If using Windows with WSL:
 
 ```bash
@@ -34,7 +36,14 @@ Use it using a ssh key :
 ansible-playbook provision.yml -i hosts --key-file ~/.ssh/id_rsa
 ```
 
-Remember to update the hosts file with the new SSH port and user for subsequent runs (just copy the docker-compose group host into the provisionning one).
+Remember to update the hosts file with the new SSH port and user for deploy playbook runs (just copy the docker-compose group host into the provisionning one).
+
+### Deploy
+
+```bash
+wsl --distribution Ubuntu
+ansible-playbook deploy.yml -i hosts --key-file ~/.ssh/id_rsa
+```
 
 ## Configuration
 

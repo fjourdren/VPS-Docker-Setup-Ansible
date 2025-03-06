@@ -41,7 +41,21 @@
         security_fail2ban_findtime: 600
         security_fail2ban_maxretry: 3
     - role: geerlingguy.docker
-
-- hosts: docker-compose
-  roles:
     - role: run-docker-compose
+
+  post_tasks:
+    # Ubuntu 24 ssh config reload fix
+    # Ubuntu 24 utilizes systemd's socket-based activation for SSH.
+    # As a result, changes to SSH configuration (e.g., port change) may not take effect without a reboot.
+    - name: Reboot the server if using Ubuntu 24 (sshd reload fix)
+      when: ansible_distribution == "Ubuntu" and ansible_distribution_version is search("24")
+      block:
+        # Rebooting the server with a short timeout for testing the SSH connection post-reboot
+        - reboot:
+            reboot_timeout: 0 # We changed the password, blocked SSH port, and disabled root so we don't need to wait for reboot.
+            test_command: whoami # Simple command to check if the server is back online
+          failed_when: false # Mark the task as a success even if there's a timeout
+      rescue:
+        # If the server doesn't reconnect after the reboot, this message will be shown, but no task failure occurs
+        - debug:
+            msg: "Server failed to reconnect during Ubuntu 24 reboot (ssh config force reload), but we're ignoring the timeout error."

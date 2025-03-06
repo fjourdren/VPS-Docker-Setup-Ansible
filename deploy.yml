@@ -1,0 +1,4 @@
+---
+- hosts: docker-compose
+  roles:
+    - role: run-docker-compose

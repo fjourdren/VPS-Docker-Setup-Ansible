@@ -30,13 +30,12 @@
         security_autoupdate_enabled: true
 
         # Autoupdate mail settings used on Debian/Ubuntu only.
-        security_autoupdate_reboot: "true"
-        security_autoupdate_reboot_time: "06:00"
+        security_autoupdate_reboot: "false"
         security_autoupdate_mail_to: "email@email.com"
         security_autoupdate_mail_on_error: true
 
         # fail2ban settings
-        security_enable_fail2ban: true
+        security_fail2ban_enabled: true
         security_fail2ban_bantime: 600
         security_fail2ban_findtime: 600
         security_fail2ban_maxretry: 3
